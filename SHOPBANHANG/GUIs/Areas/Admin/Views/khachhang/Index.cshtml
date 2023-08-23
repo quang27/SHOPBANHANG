@@ -1,0 +1,269 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout2.cshtml";
+}
+
+
+<div class="modal fade" id="newkh" tabindex="-1" aria-labelledby="examplemodallabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="examplemodallabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>THÊM NHÂN VIÊN</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Họ tên khách hàng
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Tuổi
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control" id="age" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Địa chỉ
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="address" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Số điện thoại
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="sdt" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Ảnh
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="img" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Username
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="username" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Password
+                                                </span>
+                                            </div>
+                                            <input type="password" class="form-control" id="password" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Confirm Password
+                                                </span>
+                                            </div>
+                                            <input type="password" class="form-control" id="confirm_password" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" id="create" class="btn btn-primary" data-bs-dismiss="modal">Thêm mới</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Quay lại</button>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+        </div>
+    </div>
+
+
+
+   
+    <div class="card">
+        <div class="card-header">
+            <h4>THÔNG TIN KHÁCH HÀNG</h4>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newkh">
+                        Thêm mới
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <span>Số dòng/trang</span>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+                </div>
+
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            Họ tên Khách hàng
+                        </th>
+                        <th>
+                            Tuổi
+                        </th>
+                        <th>
+                            Địa chỉ
+                        </th>
+                        <th>
+                            Số ĐT
+                        </th>
+
+                        <th>
+                            Ảnh đại điện
+                        </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+
+                <tbody id="tbData"></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="100" id="pages">
+
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+
+@section scripts{
+    <script>
+
+
+        var khachhang = {
+            init: function () {
+                khachhang.search(1);
+                $("#search").change(function () {
+                    khachhang.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    khachhang.search(1);
+                });
+               
+                $("#create").click(function () {
+                    khachhang.create();
+                });
+              
+
+            },
+           
+            search: function (index) {
+                var name = $("#search").val();              
+                var size = $("#Pagesize").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("size", size);         
+                form.append("index", index);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/khachhang/ShowList/',
+                    success: function (res) {
+                        $("#tbData").html(res.data);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+            create: function () {// dang loi
+                var name = $("#name").val();
+                var age = $("#age").val();
+                var address = $("#address").val();
+                var sdt = $("#sdt").val();
+                var img = $("#img").val();
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("age", age);
+                form.append("address", address);
+                form.append("sdt", sdt);
+                form.append("img", img);
+                form.append("username", username);
+                form.append("password", password);
+               
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/khachhang/Create/',
+                    success: function (res) {
+                        khachhang.search(1);
+                        _layout.showtoast(res.mess);
+                    },
+                });
+            },
+           
+
+        }
+        khachhang.init();
+        function goto(i) {
+            khachhang.search(i);
+        }
+    </script>
+}

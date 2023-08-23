@@ -1,0 +1,253 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout2.cshtml";
+}
+<div class="modal fade" id="new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>THÊM SẢN PHẨM</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Tên Sản Phẩm
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Xuất Xứ
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="origin" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Ảnh
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="img" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Màu Sắc
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="color" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Số lượng
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="quatity" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Giá Tiền
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="price" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="button" id="create" class="btn btn-primary" data-bs-dismiss="modal">Thêm mới</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN SẢN PHẨM</h4>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+                    Thêm mới
+                </button>
+            </div>
+            <div class="col-md-3">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Xuất xứ
+                    </th>
+                    <th>
+                        Màu sắc
+                    </th>
+                    <th>
+                        Số lượng
+                    </th>
+                    <th>
+                        Giá Tiền
+                    </th>
+                    <th>
+                        Ảnh
+                    </th>
+                    <th> </th>
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+
+        var sanpham = {
+            init: function () {
+                sanpham.search(1);
+                $("#search").change(function () {
+                    sanpham.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    sanpham.search(1);
+                });
+              
+                $("#create").click(function () {
+                    sanpham.create();
+                });
+
+
+            },
+
+            search: function (index) {
+                var name = $("#search").val();
+
+                var size = $("#Pagesize").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("size", size);
+
+                form.append("index", index);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/sanpham/ShowList/',
+                    success: function (res) {
+                        $("#tbData").html(res.data);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+            create: function () {
+                var name = $("#name").val();
+                var origin = $("#origin").val();
+                var img = $("#img").val();
+                var color = $("#color").val();
+                var quatity = $("#quatity").val();
+                
+                var price = $("#price").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("origin", origin);
+                form.append("color", color);
+                form.append("quatity", quatity);
+                form.append("img", img);
+                form.append("price", price);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/sanpham/Create/',
+                    success: function (res) {
+
+                        _layout.showtoast(res.mess);
+                    },
+                });
+            },
+
+
+        }
+        sanpham.init();
+        function goto(i) {
+            sanpham.search(i);
+        }
+    </script>
+}
