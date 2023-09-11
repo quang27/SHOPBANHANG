@@ -42,10 +42,11 @@ namespace GUIs.Areas.Admin.Controllers
             {
                 text += "<tr>";
                 text += "<td>" + item.ID + "</td>";
-                text += "<td>" + item.idsp + "</td>";
+                text += "<td>" + item.idhd + "</td>";
+                text += "<td>" + item.name + "</td>";              
                 text += "<td>" + item.price + "</td>";
                 text += "<td>" + item.quatity + "</td>";
-                text += "<td>" + item.idhd + "</td>";
+                text += "<td>" + item.total + "</td>";
 
                 text += "<td> <a href='/Admin/chitiethoadon/Edit/" + item.ID + "'><i class='fa fa-edit' aria-hidden='true'></i></a>";
                 text += " <a href='/Admin/chitiethoadon/Delete/" + item.ID + "'><i class='fa fa-trash' aria-hidden='true'></i> </a></td>";

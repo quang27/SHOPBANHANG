@@ -4,8 +4,11 @@ using GUIs.Models.VIEW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Xml.Linq;
 
 namespace GUIs.Areas.Admin.Controllers
 {
@@ -46,11 +49,11 @@ namespace GUIs.Areas.Admin.Controllers
             return Json(new { mess = "Them nhan vien thanh cong" }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Update(string name, int age, string address, string sdt, int status, string img)
+        public JsonResult Update(int id, string name, int age, string address, string sdt, int status, string img,string username,string password)
         {
 
             nhanvienDAO nhanvien = new nhanvienDAO();
-            var item = nhanvien.getItem((int)Session[idnhanvien]);
+            var item = nhanvien.getItem(id);
             item.name = name;
             item.age = age;
             item.address = address;
@@ -82,7 +85,7 @@ namespace GUIs.Areas.Admin.Controllers
                 text += "<td> <img src='" + item.img + "' style='width:40px;height:40px;' class='img-profile rounded-circle'/></td>";
                 text += "<td>" +
                     "<a href='javacript:void(0)' data-toggle='modal' data-target='#update' data-whatever='" + item.ID + "'><i class='fa fa-edit'></i></a>" + "</td>";
-                text += "<td> <a href='/Admin/nhanvien/Edit/" + item.ID + "'><i class='fa fa-edit' aria-hidden='true'></i></a>";
+               
                 text += " <a href='/Admin/nhanvien/Delete/" + item.ID + "'><i class='fa fa-trash' aria-hidden='true'></i> </a></td>";
                 text += "</tr>";
             }
@@ -102,27 +105,7 @@ namespace GUIs.Areas.Admin.Controllers
             var query = nhanvien.getItemView(id);
             return Json(new { data = query }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Edit(int? id)
-        {
-            nhanvienDAO nhanvien = new nhanvienDAO();
-            if (id == null) return RedirectToAction("Index");
-            return View(nhanvien.getItemView(id.Value));
-        }
-        [HttpPost]
-        public ActionResult Edit(nhanvienVIEW model)
-        {
-            nhanvienDAO lop = new nhanvienDAO();
-            var item = lop.getItem(model.ID);
-            item.name = model.name;
-            item.age= model.age;
-            item.telephone = model.telephone;
-            item.address = model.address;
-            item.username = model.username;
-            item.password = model.password;
-            item.status = model.status;
-            item.img = model.img;
-            lop.InsertOrUpdate(item);
-            return RedirectToAction("Index");
-        }
+       
+       
     }
 }

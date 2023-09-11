@@ -41,9 +41,10 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
-        public List<sanphamVIEW> getListNew()
+        public List<sanphamVIEW> getListNew(string name,out int total, int index = 1, int size = 8)
         {
             var query = (from a in context.SANPHAM orderby a.ID descending
+                         where(a.name.Contains(name))
                          select new sanphamVIEW
                          {
                              ID = a.ID,
@@ -54,7 +55,9 @@ namespace GUIs.Models.DAO
                              quatity = a.price,
                              price = a.price,
                          }).ToList();
-            return query;
+            total = query.Count();
+            var result = query.Skip((index - 1) * size).Take(size).ToList();
+            return result;
         }
         public List<sanphamVIEW> Search(String name, out int total, int index = 1, int size = 10)
         {

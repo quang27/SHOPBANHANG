@@ -24,6 +24,11 @@ namespace GUIs.Models.DAO
 
             return context.HOADON.Where(x => x.ID == id).FirstOrDefault();
         }
+        public HOADON getItemOrder(int idkh)
+        {
+
+            return context.HOADON.Where(x => x.idkh == idkh&&x.status==3).FirstOrDefault();
+        }
         public hoadonVIEW getItemView(int id)
         {
 
@@ -99,5 +104,37 @@ namespace GUIs.Models.DAO
             context.HOADON.Remove(x);
             context.SaveChanges();
         }
+        public Boolean Kiemtragohang(int idkh)
+        {
+            var query = (from a in context.HOADON                     
+                         where (a.idkh == idkh &&a.status==3)
+                         select new hoadonVIEW
+                         {
+                             ID = a.ID,
+                             idnv = a.idnv,
+                             idkh = a.idkh,
+                             total = a.total,
+                             status = a.status,
+                             date = a.date,
+                             name = a.name,
+                             telephone = a.telephone,
+                             address = a.address                         
+                         }).FirstOrDefault();
+            if (query != null)
+                return true;
+            return false;
+        }
+        public int getIDhoadon(int idkh)
+        {
+            var query = (from a in context.HOADON
+                         where (a.idkh == idkh && a.status == 3)
+                         select new hoadonVIEW
+                         {
+                             ID = a.ID,                           
+                         }).FirstOrDefault();
+           
+            return query.ID;
+        }
+        
     }
 }

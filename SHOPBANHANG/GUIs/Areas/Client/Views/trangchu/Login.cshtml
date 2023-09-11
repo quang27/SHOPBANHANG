@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <h2>LOGIN</h2>
+    <label>UserName</label>
+    <input type="text" id="username" />
+    <label>Password</label>
+    <input type="password" id="password" />
+    <button type="button" id="login" class="btn btn-primary" data-bs-dismiss="modal">Dang nhap </button>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script src="~/Assets/Client/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script src="~/Assets/Client/js/popper.js"></script>
+
+    <script>
+        var login = {
+            init: function () {
+
+                $("#login").click(function () {
+
+                    login.dangnhap();
+                });
+            },
+            dangnhap: function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var form = new FormData()
+                form.append("username", username);
+                form.append("password", password);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Client/trangchu/Dangnhap/',
+                    success: function (res) {
+                        window.location.href="/Client/trangchu/Index"
+                    },
+                });
+            },
+        }
+        login.init();
+    </script>
+</body>
+</html>

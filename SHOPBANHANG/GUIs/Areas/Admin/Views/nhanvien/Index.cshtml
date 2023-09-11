@@ -101,7 +101,7 @@
     </div>
 </div>
     
-
+@* Sua nhan vien *@
 <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -126,6 +126,7 @@
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control" id="edit_name" />
+                                            <input type="text"hidden id="edit_id" />
                                         </div>
                                     </div>
                                     <div class="col-md-12 p-1">
@@ -162,7 +163,26 @@
                                             <input type="text" class="form-control bg-white" id="edit_sdt" />
                                         </div>
                                     </div>
-
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    UserName
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_username" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   Password
+                                                </span>
+                                            </div>
+                                            <input type="password" class="form-control bg-white" id="edit_password" />
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12 p-1">
                                             <div class="input-group">
@@ -305,27 +325,32 @@
                         nhanvien.create();
                     });
                     $('#update').on('show.bs.modal', function (event) {
-                        var button = $(event.relatedTarget) // Button that triggered the modal
-                        var idhd = button.data('whatever') // Mã sách
-                        //Gọi tác đã thêm và tác giả chưa thêm
+                        var button = $(event.relatedTarget) 
+                        var idhd = button.data('whatever') 
+                        
                         nhanvien.getNhanvien(idhd);
 
                     });
                     $("#save").click(function () {
                         nhanvien.save();
+                        nhanvien.search(1);
                     });
 
                 },
                 getNhanvien: function (id) {
-                    $("#sachid").val(id);
+                    
 
                     $.ajax({
                         type: 'get',
                         dataType: 'JSON',
                         url: '/Admin/nhanvien/getNhanvien/' + id,
                         success: function (res) {
+                            $("#edit_id").val(res.data.ID);
                             $("#edit_name").val(res.data.name);
-                          
+                            $("#edit_age").val(res.data.age);
+                            $("#edit_address").val(res.data.address);
+                            $("#edit_sdt").val(res.data.telephone);
+                           
                         }
                     });
                 },
@@ -379,19 +404,25 @@
                     });
                 },
                 save: function () {
+                    var id = $("#edit_id").val();
                     var name = $("#edit_name").val();
                     var age = $("#edit_age").val();
                     var address = $("#edit_address").val();
                     var sdt = $("#edit_sdt").val();
                     var img = $("#edit_img").val();
                     var status = $("#edit_status").val();
+                    var username = $("#edit_username").val();
+                    var password = $("#edit_password").val();
                     var form = new FormData()
+                    form.append("id", id);
                     form.append("name", name);
                     form.append("age", age);
                     form.append("address", address);
                     form.append("sdt", sdt);
                     form.append("img", img);
                     form.append("status", status);
+                    form.append("username", username);
+                    form.append("password", password);
                     $.ajax({
                         type: 'POST',
                         dataType: 'Json',

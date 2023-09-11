@@ -39,6 +39,21 @@ namespace GUIs.Areas.Admin.Controllers
             sanpham.InsertOrUpdate(item);
             return Json(new { mess = "Them san pham thanh cong" }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult Update(int id, string name,string origin,string img,string color,int quatity,int price)
+        {
+
+            sanphamDAO sanpham = new sanphamDAO();
+            var item = sanpham.getItem(id);
+            item.name = name;
+            item.origin = origin;
+            item.img = img;
+            item.color = color;
+            item.quatity = quatity;
+            item.price = price;
+            sanpham.InsertOrUpdate(item);
+            return Json(new { mess = "Chinh sua san pham thanh cong" }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult ShowList(string name = "", int index = 1, int size = 10)
         {
 
@@ -59,39 +74,20 @@ namespace GUIs.Areas.Admin.Controllers
                 text += "<td>" + item.price + "</td>";
                 text += "<td> <img src='" + item.img + "' style='width:40px;height:40px;' class='img-profile rounded-circle'/></td>";
                 text += "<td>" +
-                    "<a href='javacript:void(0)' onclick='sanpham.update(" + item.ID + ")' data-toggle='modal' data-target='#update' data-whatever='" + item.ID + "'><i class='fa fa-edit'></i></a>" + "</td>";
-                text += "<td> <a href='/Admin/sanpham/Edit/" + item.ID + "'><i class='fa fa-edit' aria-hidden='true'></i></a>";
-                text += " <a href='/Admin/sanpham/Delete/" + item.ID + "'><i class='fa fa-trash' aria-hidden='true'></i> </a></td>";
+                    "<a href='javacript:void(0)'  data-toggle='modal' data-target='#update' data-whatever='" + item.ID + "'><i class='fa fa-edit'></i></a>" + "</td>";
+               
+                text += " <td><a href='/Admin/sanpham/Delete/" + item.ID + "'><i class='fa fa-trash' aria-hidden='true'></i> </a></td>";
                 text += "</tr>";
             }
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = text, page = page }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Delete(int id)
-        {
-            sanphamDAO x = new sanphamDAO();
-            x.Detele(id);
-            return RedirectToAction("Index");
-        }
-        public ActionResult Edit(int? id)
+        public JsonResult getSanpham(int id)
         {
             sanphamDAO sanpham = new sanphamDAO();
-            if (id == null) return RedirectToAction("Index");
-            return View(sanpham.getItemView(id.Value));
-        }
-        [HttpPost]
-        public ActionResult Edit(sanphamVIEW model)
-        {
-            sanphamDAO sanpham = new sanphamDAO();
-            var item = sanpham.getItem(model.ID);
-            item.name = model.name;
-            item.origin = model.origin;
-            item.img = model.img;
-            item.color = model.color;
-            item.quatity = model.quatity;
-            item.price= model.price;          
-            sanpham.InsertOrUpdate(item);
-            return RedirectToAction("Index");
+
+            var query = sanpham.getItemView(id);
+            return Json(new { data = query }, JsonRequestBehavior.AllowGet);
         }
     }
 }

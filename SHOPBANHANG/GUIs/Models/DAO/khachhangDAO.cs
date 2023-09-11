@@ -85,5 +85,33 @@ namespace GUIs.Models.DAO
             context.KHACHHANG.Remove(x);
             context.SaveChanges();
         }
+        public Boolean Login(String username, String password)
+        {
+            var query = (from a in context.KHACHHANG
+                         select new khachhangVIEW
+                         {
+                             ID = a.ID,
+                             name = a.name,
+                             age = a.age,
+                             address = a.address,
+                             telephone = a.telephone,
+                             username = a.username,
+                             password = a.password,
+                             img = a.img
+                         }).FirstOrDefault();
+            if (query != null)
+                return true;
+            return false;
+        }
+        public int Login(String username)
+        {
+            var query = (from a in context.KHACHHANG
+                         select new khachhangVIEW
+                         {
+                             ID = a.ID,
+                            
+                         }).FirstOrDefault();
+            return query.ID;
+        }
     }
 }

@@ -108,7 +108,112 @@
 </div>
 
 
+<div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>CHỈNH SỬA SẢN PHẨM</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Tên sản phẩm
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="edit_name" />
+                                            <input type="text" hidden id="edit_id" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Xuất xứ
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_origin" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Màu sắc
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_color" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   Đơn giá
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control bg-white" id="edit_price" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Số lượng
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control bg-white" id="edit_quatity" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   Ảnh
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_img" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 p-1">
+                                            <img src="" id="anh" style="max-width:60px;max-height:100px" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="button" id="save" class="btn btn-primary" data-bs-dismiss="modal">Chỉnh sửa</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -187,11 +292,38 @@
               
                 $("#create").click(function () {
                     sanpham.create();
+                    sanpham.search(1);
+                });
+                $('#update').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) 
+                    var id = button.data('whatever') 
+
+                    sanpham.getSanpham(id);
+
+                });
+                $("#save").click(function () {
+                    sanpham.save();
+                    sanpham.search(1);
                 });
 
-
             },
+            getSanpham: function (id) {
 
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Admin/sanpham/getSanpham/' + id,
+                    success: function (res) {
+                        $("#edit_id").val(res.data.ID);
+                        $("#edit_name").val(res.data.name);
+                        $("#edit_origin").val(res.data.origin);
+                        $("#edit_color").val(res.data.color);
+                        $("#edit_price").val(res.data.price);
+                        $("#edit_quatity").val(res.data.quatity);
+                        $("#edit_img").val(res.data.img);
+                    }
+                });
+            },
             search: function (index) {
                 var name = $("#search").val();
 
@@ -242,7 +374,38 @@
                     },
                 });
             },
+            save: function () {
+                var id = $("#edit_id").val();
+                var name = $("#edit_name").val();
+                var origin = $("#edit_origin").val();
+                var color = $("#edit_color").val();
+                var price = $("#edit_price").val();
+                var quatity = $("#edit_quatity").val();
+                var img = $("#edit_img").val();
+               
+                var form = new FormData()
+                form.append("id", id);
+                form.append("name", name);
+                form.append("origin", origin);
+                form.append("color", color);
+                form.append("price", price);
+                form.append("img", img);
+                
+                form.append("quatity", quatity);
+              
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/sanpham/Update/',
+                    success: function (res) {
 
+                        _layout.showtoast(res.mess);
+                    },
+                });
+            },
 
         }
         sanpham.init();
