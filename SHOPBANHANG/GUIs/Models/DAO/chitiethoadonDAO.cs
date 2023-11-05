@@ -1,4 +1,5 @@
-﻿using GUIs.Models.EF;
+﻿using GUIs.Helper;
+using GUIs.Models.EF;
 using GUIs.Models.VIEW;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,24 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
+        public chitiethoadonVIEW getTongTien(int id,int soluong)
+        {
+
+            var query = (from a in context.CHITIETHOADON
+                         join b in context.SANPHAM on a.idsp equals b.ID
+                         where a.ID == id
+                         select new chitiethoadonVIEW
+                         {
+                             ID = a.ID,
+                             idsp = a.idsp,
+                             name = b.name,
+                             idhd = a.idhd,
+                             price = a.price,
+                             
+                             total = a.quatity*a.price
+                         }).FirstOrDefault();
+            return query;
+        }
         public List<chitiethoadonVIEW> getList()
         {
             var query = (from a in context.CHITIETHOADON
@@ -76,6 +95,7 @@ namespace GUIs.Models.DAO
            
             return query;
         }
+    
         public void Detele(int id)
         {
             CHITIETHOADON x = getItem(id);
@@ -123,5 +143,31 @@ namespace GUIs.Models.DAO
                          }).ToList();
             return query;
         }
+        public List<chitiethoadonVIEW> Soluongban(int month, int year)
+        {
+            DateTime start = DateServices.GetFirstDayOfMonth(month, year);
+            DateTime end = DateServices.GetLastDayOfMonth(month, year);
+
+            var query = (from a in context.CHITIETHOADON
+                         join b in context.SANPHAM on a.idsp equals b.ID
+                         join c in context.HOADON on a.idhd equals c.ID
+                         where c.date >= start && c.date <= end
+                         group new { a, b } by new { a.idsp, b.name, a.idhd, a.price, b.img, b.color, b.origin } into grouped
+                         select new chitiethoadonVIEW
+                         {
+                             ID = grouped.FirstOrDefault().a.ID,
+                             idsp = grouped.Key.idsp,
+                             name = grouped.Key.name,
+                             idhd = grouped.Key.idhd,
+                             price = grouped.Key.price,
+                             quatity = grouped.Sum(item => item.a.quatity),
+                             total = grouped.Key.price * grouped.Sum(item => item.a.quatity),
+                             img = grouped.Key.img,
+                             color = grouped.Key.color,
+                             origin = grouped.Key.origin,
+                         }).ToList();
+            return query;
+        }
+
     }
 }

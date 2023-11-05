@@ -163,7 +163,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                   Đơn giá
+                                                    Đơn giá
                                                 </span>
                                             </div>
                                             <input type="number" class="form-control bg-white" id="edit_price" />
@@ -183,7 +183,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                   Ảnh
+                                                    Ảnh
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control bg-white" id="edit_img" />
@@ -289,14 +289,14 @@
                 $("#Pagesize").change(function () {
                     sanpham.search(1);
                 });
-              
+
                 $("#create").click(function () {
                     sanpham.create();
                     sanpham.search(1);
                 });
                 $('#update').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget) 
-                    var id = button.data('whatever') 
+                    var button = $(event.relatedTarget)
+                    var id = button.data('whatever')
 
                     sanpham.getSanpham(id);
 
@@ -352,7 +352,7 @@
                 var img = $("#img").val();
                 var color = $("#color").val();
                 var quatity = $("#quatity").val();
-                
+
                 var price = $("#price").val();
                 var form = new FormData()
                 form.append("name", name);
@@ -382,7 +382,7 @@
                 var price = $("#edit_price").val();
                 var quatity = $("#edit_quatity").val();
                 var img = $("#edit_img").val();
-               
+
                 var form = new FormData()
                 form.append("id", id);
                 form.append("name", name);
@@ -390,9 +390,9 @@
                 form.append("color", color);
                 form.append("price", price);
                 form.append("img", img);
-                
+
                 form.append("quatity", quatity);
-              
+
                 $.ajax({
                     type: 'POST',
                     dataType: 'Json',

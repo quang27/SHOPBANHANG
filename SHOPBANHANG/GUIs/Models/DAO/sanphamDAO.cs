@@ -41,6 +41,7 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
+     
         public List<sanphamVIEW> getListNew(string name,out int total, int index = 1, int size = 8)
         {
             var query = (from a in context.SANPHAM orderby a.ID descending
@@ -84,5 +85,6 @@ namespace GUIs.Models.DAO
             context.SANPHAM.Remove(x);
             context.SaveChanges();
         }
+
     }
 }

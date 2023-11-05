@@ -1,4 +1,5 @@
-﻿using GUIs.Models.EF;
+﻿using GUIs.Helper;
+using GUIs.Models.EF;
 using GUIs.Models.VIEW;
 using Microsoft.SqlServer.Server;
 using System;
@@ -41,7 +42,7 @@ namespace GUIs.Models.DAO
                              ID = a.ID,
                              idnv = a.idnv,
                              idkh = a.idkh,
-                             total = a.total,
+                             total = a.total??0,//Nếu a.total ==null thì sẽ lấy giá trị 0
                              status = a.status,
                              date = a.date,
                              name = a.name,
@@ -63,7 +64,7 @@ namespace GUIs.Models.DAO
                              ID = a.ID,
                              idnv = a.idnv,
                              idkh = a.idkh,
-                             total = a.total,
+                             total = a.total??0,
                              status = a.status,
                              date = a.date,
                              name = a.name,
@@ -85,7 +86,7 @@ namespace GUIs.Models.DAO
                              ID = a.ID,
                              idnv = a.idnv,
                              idkh = a.idkh,
-                             total = a.total,
+                             total = a.total??0,
                              status = a.status,
                              date = a.date,
                              name = a.name,
@@ -113,7 +114,7 @@ namespace GUIs.Models.DAO
                              ID = a.ID,
                              idnv = a.idnv,
                              idkh = a.idkh,
-                             total = a.total,
+                             total = a.total??0,
                              status = a.status,
                              date = a.date,
                              name = a.name,
@@ -135,6 +136,78 @@ namespace GUIs.Models.DAO
            
             return query.ID;
         }
-        
+        public int getTotal(int idhd)
+        {
+            var query=(from a in context.HOADON
+                       join b in context.CHITIETHOADON on a.ID equals b.idhd
+                       where a.ID== idhd
+                       select new hoadonVIEW
+                       {
+                           ID = a.ID,
+                           idnv = a.idnv,
+                           idkh = a.idkh,
+                           total =   (b.quatity ?? 0)* (b.price ?? 0),
+                           status = a.status,
+                           date = a.date,
+                           name = a.name,
+                           telephone = a.telephone,
+                           address = a.address
+                       }).ToList() ;
+           return  query.Sum(x => x.total);      
+        }
+        public List<hoadonVIEW> History(int idkh, out int total, int index = 1, int size = 10)
+        {
+              var query=(from a in context.HOADON
+                         join b in context.KHACHHANG on a.idkh equals b.ID
+                        
+                         where b.ID == idkh && a.status==2
+                         select new hoadonVIEW
+                         {
+                             ID = a.ID,
+                             idnv = a.idnv,
+                             idkh = a.idkh,
+                             total = a.total ?? 0,                          
+                             date = a.date,
+                             name=a.name,
+                             telephone = a.telephone,
+                             address = a.address
+                         }).ToList();
+            total = query.Count();
+            var result = query.Skip((index - 1) * size).Take(size).ToList();
+            return result;
+        }
+        public List<int> Doanhthu(int nam)
+        {
+            List<int> rs = new List<int>();
+
+            for (int i = 1; i < 13; i++)
+            {
+                DateTime start = DateServices.GetFirstDayOfMonth(i,nam);
+                DateTime end = DateServices.GetLastDayOfMonth(i,nam);
+
+                // Lấy danh sách hóa đơn trong khoảng thời gian của tháng hiện tại
+                List<hoadonVIEW> query = (from a in context.HOADON
+                                          where a.date >= start && a.date <= end
+                                          select new hoadonVIEW
+                                          {
+                                              ID = a.ID,
+                                              idnv = a.idnv,
+                                              idkh = a.idkh,
+                                              total = a.total ?? 0,
+                                              date = a.date,
+                                              name = a.name,
+                                              telephone = a.telephone,
+                                              address = a.address
+                                          }).ToList();
+
+                // Tính tổng doanh thu của tháng và thêm vào danh sách rs
+                int doanhThuThang = query.Sum(item => item.total);
+                rs.Add(doanhThuThang);
+            }
+
+            return rs;
+        }
+      
+
     }
 }

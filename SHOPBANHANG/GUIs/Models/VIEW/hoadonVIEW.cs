@@ -12,9 +12,9 @@ namespace GUIs.Models.VIEW
 
         public int? idnv { get; set; }
 
-        public int? idkh { get; set; }
+        public int? idkh { get; set; } //Cho phép nhận giá trị null. khi lấy giá trị phải theo cáu trúc idkh.value
 
-        public int? total { get; set; }
+        public int total { get; set; } // Không cho phép nhận gia strij null
 
         public int? status { get; set; }
 

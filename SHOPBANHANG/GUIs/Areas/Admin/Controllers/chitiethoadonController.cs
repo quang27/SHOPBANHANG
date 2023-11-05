@@ -27,7 +27,7 @@ namespace GUIs.Areas.Admin.Controllers
             item.price = price;
             item.quatity = quatity;
             chitiethoadon.InsertOrUpdate(item);
-            return Json(new { mess = "Them sản phẩm thành công" }, JsonRequestBehavior.AllowGet);
+            return Json(new { mess = "Thêm sản phẩm thành công" }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult ShowList(int id)
         {

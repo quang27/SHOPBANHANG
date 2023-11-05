@@ -204,7 +204,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">
-                                                       Password
+                                                        Password
                                                     </span>
                                                 </div>
                                                 <input type="password" class="form-control bg-white" id="edit_password" />
@@ -315,8 +315,8 @@
                     khachhang.create();
                 });
                 $('#update').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget) 
-                    var id = button.data('whatever') 
+                    var button = $(event.relatedTarget)
+                    var id = button.data('whatever')
                     khachhang.getKhachhang(id);
                 });
                 $("#save").click(function () {
@@ -324,7 +324,7 @@
                     khachhang.search(1);
                 });
             },
-            getKhachhang: function (id) { 
+            getKhachhang: function (id) {
 
                 $.ajax({
                     type: 'get',
@@ -399,7 +399,7 @@
                 var address = $("#edit_address").val();
                 var sdt = $("#edit_sdt").val();
                 var img = $("#edit_img").val();
-               
+
                 var username = $("#edit_username").val();
                 var password = $("#edit_password").val();
                 var form = new FormData()
@@ -409,7 +409,7 @@
                 form.append("address", address);
                 form.append("sdt", sdt);
                 form.append("img", img);
-               
+
                 form.append("username", username);
                 form.append("password", password);
                 $.ajax({

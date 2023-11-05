@@ -112,7 +112,7 @@
                                     <th>
                                         Số lượng
                                     </th>
-                                  
+
                                     <th>
                                         Thành Tiền
                                     </th>
@@ -123,7 +123,7 @@
                             <tbody id="tbData_detail"></tbody>
                             <tfoot>
                                 <tr>
-                                    <th >
+                                    <th>
 
                                     </th>
                                 </tr>
@@ -174,13 +174,13 @@
                 })
 
             },
-           
+
             search: function (index) {
-                
+
                 var status = $("#status").val();
                 var size = $("#Pagesize").val();
                 var form = new FormData()
-               
+
                 form.append("size", size);
                 form.append("status", status);
                 form.append("index", index);
@@ -233,9 +233,9 @@
                     url: '/Admin/chitiethoadon/ShowList/' + id,
                     success: function (res) {
                         $("#tbData_detail").html(res.data);
-                        
+
                     }
-                });               
+                });
             }
 
         }

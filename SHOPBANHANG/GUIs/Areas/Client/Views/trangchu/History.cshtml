@@ -1,0 +1,195 @@
+﻿
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Areas/Client/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>LỊCH SỬ ĐẶT HÀNG</h4>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+
+        </div>
+        <input type="hidden" id="idhd" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        Người nhận
+                    </th>
+                    <th>
+                        Ngày đặt
+                    </th>
+                    <th>
+                        Số ĐT người nhận
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+
+                    <th>
+                        Tổng tiền
+                    </th>
+                    <th> Xem chi tiết</th>
+                    <th> </th>
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="xemchitiet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>CHI TIẾT HÓA ĐƠN</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        STT
+                                    </th>
+                                    <th>
+                                        ID hóa đơn
+                                    </th>
+                                    <th>
+                                        Tên sản phẩm
+                                    </th>
+                                    <th>
+                                        Đơn giá
+                                    </th>
+                                    <th>
+                                        Số lượng
+                                    </th>
+
+                                    <th>
+                                        Thành Tiền
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tbData_detail"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var purchase = {
+            init: function () {
+                purchase.search(1);
+                $("#Pagesize").change(function () {
+                    purchase.search(1);
+                });
+
+                $('#xemchitiet').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var idhd = button.data('whatever')
+
+                    purchase.xemchitiet(idhd);
+
+                })
+
+            },
+
+            search: function (index) {
+
+
+                var size = $("#Pagesize").val();
+                var form = new FormData()
+
+                form.append("size", size);
+
+                form.append("index", index);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Client/trangchu/OderHistory/',
+                    success: function (res) {
+                        $("#tbData").html(res.data);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+            xemchitiet: function (id) {
+
+
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Client/trangchu/OrderDetail/' + id,
+                    success: function (res) {
+                        $("#tbData_detail").html(res.data);
+
+                    }
+                });
+            }
+
+
+        }
+        purchase.init();
+        function goto(i) {
+            purchase.search(i);
+        }
+    </script>
+}
+
+

@@ -100,7 +100,7 @@
         </div>
     </div>
 </div>
-    
+
 @* Sua nhan vien *@
 <div class="modal fade" id="update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -126,7 +126,7 @@
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control" id="edit_name" />
-                                            <input type="text"hidden id="edit_id" />
+                                            <input type="text" hidden id="edit_id" />
                                         </div>
                                     </div>
                                     <div class="col-md-12 p-1">
@@ -177,7 +177,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                   Password
+                                                    Password
                                                 </span>
                                             </div>
                                             <input type="password" class="form-control bg-white" id="edit_password" />
@@ -235,212 +235,212 @@
     </div>
 </div>
 
-    @*hien thi thong tin nhan vien*@
-    <div class="card">
-        <div class="card-header">
-            <h4>THÔNG TIN NHÂN VIÊN</h4>
-        </div>
-        <div class="card-body">
+@*hien thi thong tin nhan vien*@
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN NHÂN VIÊN</h4>
+    </div>
+    <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
-                        Thêm mới
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <span>Số dòng/trang</span>
-                </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <div class="dropdown" style="float:right">
-                        <select class="form-select" aria-label="Default select example" id="status">
-                            <option selected value="1">Trang thai nhan vien</option>
-                            <option value="1">Dang lam</option>
-                            <option value="0">Da nghi</option>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+                    Thêm mới
+                </button>
+            </div>
+            <div class="col-md-3">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <div class="dropdown" style="float:right">
+                    <select class="form-select" aria-label="Default select example" id="status">
+                        <option selected value="1">Trang thai nhan vien</option>
+                        <option value="1">Dang lam</option>
+                        <option value="0">Da nghi</option>
 
-                        </select>
-                    </div>
+                    </select>
                 </div>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            STT
-                        </th>
-                        <th>
-                            Họ tên nhân viên
-                        </th>
-                        <th>
-                            Tuổi
-                        </th>
-                        <th>
-                            Địa chỉ
-                        </th>
-                        <th>
-                            Số ĐT
-                        </th>
-                        <th>
-                            Ngày vào làm
-                        </th>
-                        <th>
-                            Ảnh đại điện
-                        </th>
-                        <th> </th>
-                    </tr>
-                </thead>
-
-                <tbody id="tbData"></tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="100" id="pages">
-
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
         </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        Họ tên nhân viên
+                    </th>
+                    <th>
+                        Tuổi
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th>
+                        Số ĐT
+                    </th>
+                    <th>
+                        Ngày vào làm
+                    </th>
+                    <th>
+                        Ảnh đại điện
+                    </th>
+                    <th> </th>
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+</div>
 
-    @section scripts{
-        <script>
+@section scripts{
+    <script>
 
 
-            var nhanvien = {
-                init: function () {
+        var nhanvien = {
+            init: function () {
+                nhanvien.search(1);
+                $("#search").change(function () {
                     nhanvien.search(1);
-                    $("#search").change(function () {
-                        nhanvien.search(1);
-                    });
-                    $("#Pagesize").change(function () {
-                        nhanvien.search(1);
-                    });
-                    $("#status").change(function () {
-                        nhanvien.search(1);
-                    });
-                    $("#create").click(function () {
-                        nhanvien.create();
-                    });
-                    $('#update').on('show.bs.modal', function (event) {
-                        var button = $(event.relatedTarget) 
-                        var idhd = button.data('whatever') 
-                        
-                        nhanvien.getNhanvien(idhd);
+                });
+                $("#Pagesize").change(function () {
+                    nhanvien.search(1);
+                });
+                $("#status").change(function () {
+                    nhanvien.search(1);
+                });
+                $("#create").click(function () {
+                    nhanvien.create();
+                });
+                $('#update').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var idhd = button.data('whatever')
 
-                    });
-                    $("#save").click(function () {
-                        nhanvien.save();
-                        nhanvien.search(1);
-                    });
+                    nhanvien.getNhanvien(idhd);
 
-                },
-                getNhanvien: function (id) {
-                    
+                });
+                $("#save").click(function () {
+                    nhanvien.save();
+                    nhanvien.search(1);
+                });
 
-                    $.ajax({
-                        type: 'get',
-                        dataType: 'JSON',
-                        url: '/Admin/nhanvien/getNhanvien/' + id,
-                        success: function (res) {
-                            $("#edit_id").val(res.data.ID);
-                            $("#edit_name").val(res.data.name);
-                            $("#edit_age").val(res.data.age);
-                            $("#edit_address").val(res.data.address);
-                            $("#edit_sdt").val(res.data.telephone);
-                           
-                        }
-                    });
-                },
-                search: function (index) {
-                    var name = $("#search").val();
-                    var status = $("#status").val();
-                    var size = $("#Pagesize").val();
-                    var form = new FormData()
-                    form.append("name", name);
-                    form.append("size", size);
-                    form.append("status", status);
-                    form.append("index", index);
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'Json',
-                        contentType: false,
-                        processData: false,
-                        data: form,
-                        url: '/Admin/nhanvien/ShowList/',
-                        success: function (res) {
-                            $("#tbData").html(res.data);
-                            $("#pages").html(res.page);
-                        },
-                    });
-                },
-                create: function () {
-                    var name = $("#name").val();
-                    var age = $("#age").val();
-                    var address = $("#address").val();
-                    var sdt = $("#sdt").val();
-                    var img = $("#img").val();
+            },
+            getNhanvien: function (id) {
 
-                    var form = new FormData()
-                    form.append("name", name);
-                    form.append("age", age);
-                    form.append("address", address);
-                    form.append("sdt", sdt);
-                    form.append("img", img);
 
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'Json',
-                        contentType: false,
-                        processData: false,
-                        data: form,
-                        url: '/Admin/nhanvien/Create/',
-                        success: function (res) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Admin/nhanvien/getNhanvien/' + id,
+                    success: function (res) {
+                        $("#edit_id").val(res.data.ID);
+                        $("#edit_name").val(res.data.name);
+                        $("#edit_age").val(res.data.age);
+                        $("#edit_address").val(res.data.address);
+                        $("#edit_sdt").val(res.data.telephone);
 
-                            _layout.showtoast(res.mess);
-                        },
-                    });
-                },
-                save: function () {
-                    var id = $("#edit_id").val();
-                    var name = $("#edit_name").val();
-                    var age = $("#edit_age").val();
-                    var address = $("#edit_address").val();
-                    var sdt = $("#edit_sdt").val();
-                    var img = $("#edit_img").val();
-                    var status = $("#edit_status").val();
-                    var username = $("#edit_username").val();
-                    var password = $("#edit_password").val();
-                    var form = new FormData()
-                    form.append("id", id);
-                    form.append("name", name);
-                    form.append("age", age);
-                    form.append("address", address);
-                    form.append("sdt", sdt);
-                    form.append("img", img);
-                    form.append("status", status);
-                    form.append("username", username);
-                    form.append("password", password);
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'Json',
-                        contentType: false,
-                        processData: false,
-                        data: form,
-                        url: '/Admin/nhanvien/Update/',
-                        success: function (res) {
+                    }
+                });
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var status = $("#status").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("size", size);
+                form.append("status", status);
+                form.append("index", index);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/nhanvien/ShowList/',
+                    success: function (res) {
+                        $("#tbData").html(res.data);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+            create: function () {
+                var name = $("#name").val();
+                var age = $("#age").val();
+                var address = $("#address").val();
+                var sdt = $("#sdt").val();
+                var img = $("#img").val();
 
-                            _layout.showtoast(res.mess);
-                        },
-                    });
-                },
+                var form = new FormData()
+                form.append("name", name);
+                form.append("age", age);
+                form.append("address", address);
+                form.append("sdt", sdt);
+                form.append("img", img);
 
-            }
-            nhanvien.init();
-            function goto(i) {
-                nhanvien.search(i);
-            }
-        </script>
-    }
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/nhanvien/Create/',
+                    success: function (res) {
+
+                        _layout.showtoast(res.mess);
+                    },
+                });
+            },
+            save: function () {
+                var id = $("#edit_id").val();
+                var name = $("#edit_name").val();
+                var age = $("#edit_age").val();
+                var address = $("#edit_address").val();
+                var sdt = $("#edit_sdt").val();
+                var img = $("#edit_img").val();
+                var status = $("#edit_status").val();
+                var username = $("#edit_username").val();
+                var password = $("#edit_password").val();
+                var form = new FormData()
+                form.append("id", id);
+                form.append("name", name);
+                form.append("age", age);
+                form.append("address", address);
+                form.append("sdt", sdt);
+                form.append("img", img);
+                form.append("status", status);
+                form.append("username", username);
+                form.append("password", password);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/nhanvien/Update/',
+                    success: function (res) {
+
+                        _layout.showtoast(res.mess);
+                    },
+                });
+            },
+
+        }
+        nhanvien.init();
+        function goto(i) {
+            nhanvien.search(i);
+        }
+    </script>
+}

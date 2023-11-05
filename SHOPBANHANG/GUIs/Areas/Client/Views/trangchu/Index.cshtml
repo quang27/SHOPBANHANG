@@ -53,7 +53,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="row">
-                                    <img id="img" src="" style="width:40px;height:40px;"/>
+                                    <img id="img" src="" style="width:40px;height:40px;" />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -134,7 +134,7 @@
                                                     Số lượng mua
                                                 </span>
                                             </div>
-                                            <input type="number" class="form-control" id="quatity"  />
+                                            <input type="number" class="form-control" id="quatity" />
                                         </div>
                                     </div>
 
@@ -180,7 +180,7 @@
         </div>
 
 
-        <div clas="row" id="tbData">
+        <div class="row" id="tbData">
 
         </div>
         <table>
@@ -211,19 +211,19 @@
                 $("#create").click(function () {
                     trangchu.AddCart();
                 });
-                
+
                 //$('#xemchitiet').on('show.bs.modal', function (event) {
                 //        var button = $(event.relatedTarget)
                 //        var id = button.data('whatever');
 
                 //        trangchu.getSanpham(id);
-                    
+
                 //})
                 $('#xemchitiet').on('show.bs.modal', function (event) {
-                  
+
                     var button = $(event.relatedTarget)
                     var id = button.data('whatever');
-                  
+
                     trangchu.getSanpham(id);
                 });
             },
@@ -263,7 +263,7 @@
                         $("#img").attr('src', res.data.img);
                         $("#price").val(res.data.price);
                         $("#origin").val(res.data.origin);
-                        
+
                         $("#number").val(res.data.quatity);
                     }
                 });
@@ -295,8 +295,9 @@
                 });
             },
 
+
         }
-       
+
 
 
         trangchu.init();
